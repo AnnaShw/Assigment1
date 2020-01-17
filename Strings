@@ -1,0 +1,166 @@
+/*Assigment:3
+    Author:Anna Rabynovych ID:336249628*/
+
+//part3
+
+#include<stdio.h>
+#include<string.h>
+#define SIZE 50
+#define ROWS 8
+
+void ReverseLetters(char str[]);
+void ReverseWords(char str[]);
+void UpperLower(char str[]);
+int LetterCount(char let[]); //this is helping function
+void FindAnagrams();
+int IfAnagram(char str1[],char str2[]); //this is helping function
+
+int main(){
+    /*char str[SIZE];
+    char mystring[SIZE];
+    char mystr[SIZE];
+    
+    printf("Enter a string:\n");
+    fgets(str,SIZE,stdin);
+    UpperLower(str);
+    
+    printf("Enter String:\n");
+    fgets(mystr,sizeof mystr, stdin);
+    ReverseLetters(mystr);
+  
+    printf("Enter a sentance:\n");
+    fgets(mystring,SIZE,stdin);
+    ReverseWords(mystring);*/
+
+    FindAnagrams();
+    return 0;
+}
+
+//this function will reverse letters of the words in string without chanching position of the words.
+void ReverseLetters(char str[]){
+    int i,j;
+    i = 0;
+    while(str[i]!='\0'){
+        if(str[i]==' ' || str[i] =='\n'){
+          for(j=i-1;j>=0&&str[j]!=' '; j--)
+                printf("%c",str[j]);
+            printf(" ");    
+        }
+        i++;
+    }
+    printf("\n");
+    }
+
+
+//this function will reverse position of words in string without changing characters
+void ReverseWords(char str[]){
+
+    char reverse[50];
+    int len;
+    len=LetterCount(str);
+    int i,index=0;
+    int start=len-1;
+    int end=len-1;
+   
+    while(start>0){
+        if(str[start]==' '){
+            i=start+1;
+            while(i<=end){
+                reverse[index]=str[i];
+                i++;
+                index++;
+            }
+            reverse[index++]=' ';
+            end=start-1;
+        }
+        start--;
+    }
+    for(i=0;i<=end;i++){
+        reverse[index]=str[i];
+        index++;
+    }
+    reverse[index]='\0';
+    printf("Ok,this is what you get: %s\n",reverse);
+ }
+
+
+/*This function will count lenght of string wihout using 
+                                built-in function*/
+int LetterCount(char let[]){
+int i,count;
+for (i=0;let[i]!='\0';++i)
+    count=i;
+return count;
+}
+
+
+/*this function will convert small letters into big and big letters
+into small without changing numbers if they part of string*/
+void UpperLower(char str[]){
+   int i=0;
+   while(str[i]!='\0'){
+   if(str[i]>='A'&&str[i]<='Z'){
+    str[i]=str[i]+32;
+    printf("%c",str[i]);}
+    else if(str[i]>='a' && str[i]<='z'){
+   str[i]=str[i]-32;
+   printf("%c",str[i]);}
+   else {
+     printf("%c",str[i]);
+   }
+    i++;
+   }
+  printf("\n");
+}
+
+void FindAnagrams(){
+   char str[ROWS][SIZE];
+  //scan my array of string from admin
+ for(int i=0;i<ROWS;i++){
+    printf("Enter a string:\n");
+    fgets(str[i],SIZE,stdin);
+  }
+  //convert all string to lower case
+  for(int q=0;q<ROWS;q++){
+    for(int r=0;r<SIZE;r++){
+        if(str[q][r]>='A' && str[q][r]<='Z'){
+            str[q][r]+= 32;
+        }
+    }
+  }
+  //begin to check if there anagrams
+  printf("Found anagrams:");
+  for(int k=0;k<ROWS;k++){
+    for(int l=k+1;l<ROWS;l++){
+    //1st if check if the same lenght+it's not the same word
+      if(strcmp(str[k],str[l])){
+        if(IfAnagram(str[k],str[l])==1){
+          printf("%s and %s",str[k],str[l]);
+        }
+      }
+    }
+  }
+  printf("\n");
+}
+
+int IfAnagram(char str1[],char str2[]){
+  int s1[26]={0},s2[26]={0},c=0;
+  // Calculating frequency of characters 
+  while (str1[c]!='\0'){
+    s1[str1[c]-'a']++;
+    c++;
+  }
+  c = 0;
+  while (str2[c]!='\0') {
+    s2[str2[c]-'a']++;
+    c++;
+  }
+  // Comparing the frequency of characters
+
+  for (c = 0;c<26;c++){
+    if (s1[c]!=s2[c]){
+      return 0;
+    }
+  }
+  return 1;
+}
